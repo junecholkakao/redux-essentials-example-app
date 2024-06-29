@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { selectAllUsers } from '@/features/users/usersSlice'
 
-import { allNotificationsRead, selectAllNotifications } from './notificationsSlice'
+import { allNotificationsRead, useGetNotificationsQuery, selectMetadataEntities } from './notificationsSlice'
 
 const UNKNOWN_USER = {
   name: 'Unknown User',
@@ -13,7 +13,8 @@ const UNKNOWN_USER = {
 
 export const NotificationsList = () => {
   const dispatch = useAppDispatch()
-  const notifications = useAppSelector(selectAllNotifications)
+  const { data: notifications = [] } = useGetNotificationsQuery()
+  const notificationsMetadata = useAppSelector(selectMetadataEntities)
   const users = useAppSelector(selectAllUsers)
 
   useLayoutEffect(() => {
@@ -25,8 +26,10 @@ export const NotificationsList = () => {
     const timeAgo = formatDistanceToNow(date)
     const user = users.find((user) => user.id === notification.user) ?? UNKNOWN_USER
 
+    const metadata = notificationsMetadata[notification.id]
+
     const notificationClassname = classnames('notification', {
-      new: notification.isNew,
+      new: metadata.isNew,
     })
 
     return (
