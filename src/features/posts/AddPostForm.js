@@ -28,11 +28,11 @@ export const AddPostForm = () => {
 
     const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
 
-    const usersOptions = users.map(user => {
+    const usersOptions = users.map(user => (
         <option key={user.id} value={user.id}>
             {user.name}
         </option>
-    })
+    ))
 
     return (
         <section>
