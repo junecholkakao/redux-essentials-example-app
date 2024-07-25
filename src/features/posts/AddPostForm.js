@@ -2,6 +2,7 @@ import React, {useReducer, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addNewPost } from "./postsSlice";
+import { selectAllUsers } from "../users/usersSlice";
 
 
 export const AddPostForm = () => {
@@ -12,22 +13,11 @@ export const AddPostForm = () => {
 
     const dispatch = useDispatch()
 
-    const users = useSelector(state=>state.users)
+    const users = useSelector(selectAllUsers)
 
     const onTitleChanged = e => setTitle(e.target.value)
     const onContentChanged = e => setContent(e.target.value)
     const onAuthorChanged = e => setUserId(e.target.value)
-
-    // const onSavePostClicked = () => {
-    //     if (title && content) {
-    //         dispatch(postAdded(title, content, userId))
-
-    //         setTitle('')
-    //         setContent('')
-    //     }
-    // }
-
-    // const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
 
     const canSave = [title, content, userId].every(Boolean) && addRequestStatus === 'idle'
 
